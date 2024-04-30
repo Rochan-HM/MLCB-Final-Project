@@ -1,6 +1,6 @@
 # Code for MLCB final project
 
-## Group 21
+## Group 20
 - **Group members**: 
     - **Rochan Madhusudhana**
     - **Gururaj Deshpande**
