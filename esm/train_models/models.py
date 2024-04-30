@@ -92,19 +92,16 @@ class MLPModelWithAttention(L.LightningModule):
         self.save_hyperparameters(hyperparams)
 
     def forward(self, x):
-        # Assuming x is shaped (num_sequences, embedding_dim)
-        embeddings = x
-
         # Calculate attention weights
-        queries = self.query_projection(embeddings)
-        keys = self.key_projection(embeddings)
+        queries = self.query_projection(x)
+        keys = self.key_projection(x)
         scores = torch.matmul(queries, keys.transpose(-2, -1)) / torch.sqrt(
             torch.tensor(self.embedding_dim // 2)
         )
         attention_weights = nn.functional.softmax(scores, dim=-1)
 
         # Apply attention
-        weighted_embeddings = torch.matmul(attention_weights, embeddings)
+        weighted_embeddings = torch.matmul(attention_weights, x)
 
         # Aggregate across sequences for each sample in the batch
         batch_predictions = torch.sum(
